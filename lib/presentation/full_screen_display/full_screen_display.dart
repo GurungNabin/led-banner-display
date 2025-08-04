@@ -143,7 +143,27 @@ class _FullScreenDisplayState extends State<FullScreenDisplay>
     });
   }
 
+  // void _enterFullScreen() {
+  //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+  //   if (_isMaxBrightness) {
+  //     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //       statusBarBrightness: Brightness.light,
+  //     ));
+  //   }
+
+  //   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //     statusBarColor: Colors.transparent,
+  //     systemNavigationBarColor: Colors.transparent,
+  //   ));
+  // }
+
   void _enterFullScreen() {
+    // Set landscape orientation
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     if (_isMaxBrightness) {
@@ -423,6 +443,18 @@ class _FullScreenDisplayState extends State<FullScreenDisplay>
     return direction == 'up' || direction == 'down';
   }
 
+  // @override
+  // void dispose() {
+  //   _scrollController?.dispose();
+  //   _fadeController?.dispose();
+  //   _controlsTimer?.cancel();
+  //   _flashTimer?.cancel();
+
+  //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  //   super.dispose();
+  // }
+
   @override
   void dispose() {
     _scrollController?.dispose();
@@ -430,6 +462,13 @@ class _FullScreenDisplayState extends State<FullScreenDisplay>
     _controlsTimer?.cancel();
     _flashTimer?.cancel();
 
+    // Restore orientation to allow both
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     super.dispose();

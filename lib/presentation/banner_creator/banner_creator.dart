@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:led_banner_display/presentation/full_screen_display/full_screen_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -184,15 +185,59 @@ class _BannerCreatorState extends State<BannerCreator>
               size: 24,
             ),
           ),
+          // IconButton(
+          //   onPressed: () =>
+          //       Navigator.pushNamed(context, '/full-screen-display'),
+          //   icon: Icon(
+          //     Icons.fullscreen,
+          //     color: AppTheme.lightTheme.colorScheme.primary,
+          //     size: 24,
+          //   ),
+          // ),
+          // ...existing code...
+          // ...existing code...
           IconButton(
-            onPressed: () =>
-                Navigator.pushNamed(context, '/full-screen-display'),
+            onPressed: () {
+              String mappedDirection;
+              switch (_scrollDirection) {
+                case 'left':
+                  mappedDirection = 'right_to_left';
+                  break;
+                case 'right':
+                  mappedDirection = 'left_to_right';
+                  break;
+                default:
+                  mappedDirection = _scrollDirection;
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FullScreenDisplay(
+                    bannerConfig: {
+                      'text': _bannerText,
+                      'textColor':
+                          '#${_textColor.value.toRadixString(16).padLeft(8, '0').substring(2)}',
+                      'backgroundColor':
+                          '#${_backgroundColor.value.toRadixString(16).padLeft(8, '0').substring(2)}',
+                      'fontSize': _fontSize,
+                      'scrollDirection': mappedDirection,
+                      'scrollSpeed': _scrollSpeed,
+                      'isFlashing': _isFlashing,
+                      'soundEnabled': _soundEnabled,
+                      'fontStyle': _fontStyle,
+                    },
+                  ),
+                ),
+              );
+            },
+// ...existing code...
             icon: Icon(
               Icons.fullscreen,
               color: AppTheme.lightTheme.colorScheme.primary,
               size: 24,
             ),
           ),
+// ...existing code...
           SizedBox(width: 2.w),
         ],
         bottom: TabBar(
@@ -233,7 +278,7 @@ class _BannerCreatorState extends State<BannerCreator>
             scrollDirection: _scrollDirection,
             scrollSpeed: _scrollSpeed,
             isFlashing: _isFlashing,
-            fontStyle: _fontStyle,
+            // fontStyle: _fontStyle,
             isPlaying: _isPlaying,
           ),
           SizedBox(height: 4.h),
@@ -432,7 +477,7 @@ class _BannerCreatorState extends State<BannerCreator>
               scrollDirection: _scrollDirection,
               scrollSpeed: _scrollSpeed,
               isFlashing: _isFlashing,
-              fontStyle: _fontStyle,
+              // fontStyle: _fontStyle,
               isPlaying: _isPlaying,
             ),
           ),
@@ -461,9 +506,60 @@ class _BannerCreatorState extends State<BannerCreator>
                   ),
                 ),
               ),
+              // ElevatedButton.icon(
+              //   onPressed: () =>
+              //       Navigator.pushNamed(context, '/full-screen-display'),
+              //   icon: Icon(
+              //     Icons.fullscreen,
+              //     color: Colors.white,
+              //     size: 20,
+              //   ),
+              //   label: const Text('Full Screen'),
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: AppTheme.lightTheme.colorScheme.secondary,
+              //     foregroundColor: Colors.white,
+              //     padding: EdgeInsets.symmetric(
+              //       horizontal: 6.w,
+              //       vertical: 2.h,
+              //     ),
+              //   ),
+              // ),
+              // ...existing code...
               ElevatedButton.icon(
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/full-screen-display'),
+                onPressed: () {
+                  String mappedDirection;
+                  switch (_scrollDirection) {
+                    case 'left':
+                      mappedDirection = 'right_to_left';
+                      break;
+                    case 'right':
+                      mappedDirection = 'left_to_right';
+                      break;
+                    default:
+                      mappedDirection = _scrollDirection;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FullScreenDisplay(
+                        bannerConfig: {
+                          'text': _bannerText,
+                          'textColor':
+                              '#${_textColor.value.toRadixString(16).padLeft(8, '0').substring(2)}',
+                          'backgroundColor':
+                              '#${_backgroundColor.value.toRadixString(16).padLeft(8, '0').substring(2)}',
+                          'fontSize': _fontSize,
+                          'scrollDirection': mappedDirection,
+                          'scrollSpeed': _scrollSpeed,
+                          'isFlashing': _isFlashing,
+                          'soundEnabled': _soundEnabled,
+                          'fontStyle': _fontStyle,
+                        },
+                      ),
+                    ),
+                  );
+                },
+// ...existing code...
                 icon: Icon(
                   Icons.fullscreen,
                   color: Colors.white,
@@ -479,6 +575,7 @@ class _BannerCreatorState extends State<BannerCreator>
                   ),
                 ),
               ),
+// ...existing code...
             ],
           ),
           SizedBox(height: 2.h),
