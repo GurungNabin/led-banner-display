@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/nabin/Downloads/flutter_linux_3.24.5-stable/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/nabin/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/nabin/flutter/led_banner_display/android/app/.cxx/Debug/o362f3j1/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/nabin/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/nabin/flutter/led_banner_display/android/app/.cxx/Debug/o362f3j1/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}
