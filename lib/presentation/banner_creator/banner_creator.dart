@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:led_banner_display/presentation/full_screen_display/full_screen_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -88,6 +89,14 @@ class _BannerCreatorState extends State<BannerCreator>
   @override
   void initState() {
     super.initState();
+
+    // Set initial orientation to portrait only
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
     _tabController = TabController(length: 3, vsync: this);
     _textController = TextEditingController();
     _loadLastConfiguration();
@@ -97,6 +106,10 @@ class _BannerCreatorState extends State<BannerCreator>
   void dispose() {
     _tabController.dispose();
     _textController.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.dispose();
   }
 
@@ -198,17 +211,17 @@ class _BannerCreatorState extends State<BannerCreator>
           // ...existing code...
           IconButton(
             onPressed: () {
-              String mappedDirection;
-              switch (_scrollDirection) {
-                case 'left':
-                  mappedDirection = 'right_to_left';
-                  break;
-                case 'right':
-                  mappedDirection = 'left_to_right';
-                  break;
-                default:
-                  mappedDirection = _scrollDirection;
+              String getMappedDirection(String direction) {
+                switch (direction) {
+                  case 'left':
+                    return 'right_to_left';
+                  case 'right':
+                    return 'left_to_right';
+                  default:
+                    return direction;
+                }
               }
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -220,7 +233,7 @@ class _BannerCreatorState extends State<BannerCreator>
                       'backgroundColor':
                           '#${_backgroundColor.value.toRadixString(16).padLeft(8, '0').substring(2)}',
                       'fontSize': _fontSize,
-                      'scrollDirection': mappedDirection,
+                      'scrollDirection': getMappedDirection(_scrollDirection),
                       'scrollSpeed': _scrollSpeed,
                       'isFlashing': _isFlashing,
                       'soundEnabled': _soundEnabled,
@@ -527,17 +540,17 @@ class _BannerCreatorState extends State<BannerCreator>
               // ...existing code...
               ElevatedButton.icon(
                 onPressed: () {
-                  String mappedDirection;
-                  switch (_scrollDirection) {
-                    case 'left':
-                      mappedDirection = 'right_to_left';
-                      break;
-                    case 'right':
-                      mappedDirection = 'left_to_right';
-                      break;
-                    default:
-                      mappedDirection = _scrollDirection;
+                  String getMappedDirection(String direction) {
+                    switch (direction) {
+                      case 'left':
+                        return 'right_to_left';
+                      case 'right':
+                        return 'left_to_right';
+                      default:
+                        return direction;
+                    }
                   }
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -549,7 +562,8 @@ class _BannerCreatorState extends State<BannerCreator>
                           'backgroundColor':
                               '#${_backgroundColor.value.toRadixString(16).padLeft(8, '0').substring(2)}',
                           'fontSize': _fontSize,
-                          'scrollDirection': mappedDirection,
+                          'scrollDirection':
+                              getMappedDirection(_scrollDirection),
                           'scrollSpeed': _scrollSpeed,
                           'isFlashing': _isFlashing,
                           'soundEnabled': _soundEnabled,

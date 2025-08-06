@@ -43,8 +43,8 @@ class TextInputWidget extends StatelessWidget {
             controller: controller,
             onChanged: onChanged,
             maxLength: maxLength,
-            maxLines: 3,
-            minLines: 1,
+            maxLines: 1,
+            textInputAction: TextInputAction.done,
             style: AppTheme.lightTheme.textTheme.bodyLarge,
             decoration: InputDecoration(
               hintText: 'Enter your LED banner text...',

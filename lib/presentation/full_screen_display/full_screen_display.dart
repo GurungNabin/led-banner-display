@@ -52,6 +52,13 @@ class _FullScreenDisplayState extends State<FullScreenDisplay>
 
     _setupAnimations();
     _enterFullScreen();
+
+    // Forece landscape orientation
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.landscapeRight,
+    // ]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
   void _setupAnimations() {
@@ -178,9 +185,33 @@ class _FullScreenDisplayState extends State<FullScreenDisplay>
     ));
   }
 
-  void _exitFullScreen() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    Navigator.of(context).pop();
+  // void _exitFullScreen() async {
+  //   // Reset orientation BEFORE popping
+  //   await SystemChrome.setPreferredOrientations([
+  //     DeviceOrientation.portraitUp,
+  //     DeviceOrientation.portraitDown,
+  //   ]);
+  //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  //   Navigator.of(context).pop();
+  // }
+
+  void _exitFullScreen() async {
+    // 1. Set back to portrait orientation
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    // 2. Restore system UI
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+    // 3. Wait a moment for orientation change to take effect
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    // 4. Now safely pop the screen
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   void _togglePlayPause() {
@@ -462,12 +493,10 @@ class _FullScreenDisplayState extends State<FullScreenDisplay>
     _controlsTimer?.cancel();
     _flashTimer?.cancel();
 
-    // Restore orientation to allow both
+    // Restore portrait + UI mode just in case
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
