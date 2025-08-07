@@ -33,15 +33,17 @@ class ColorPickerWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                title,
-                style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+              Flexible(
+                child: Text(
+                  title,
+                  style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               const Spacer(),
               Container(
-                width: 8.w,
+                width: 6.w,
                 height: 4.h,
                 decoration: BoxDecoration(
                   color: selectedColor,
